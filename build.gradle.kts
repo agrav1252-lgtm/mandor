@@ -10,8 +10,10 @@ plugins {
 group = "com.mandor"
 version = "1.0.0"
 
-// ─── إذا كان متغير البيئة ZULU_JDK_PATH موجوداً يستخدمه للبناء
+// ─── ZULU_JDK_PATH: مسار JDK للبناء (يحتوي على jpackage)
+// ─── CUSTOM_JRE_PATH: مسار JRE مبني مسبقاً (من JDK 11) — يتخطى jlink
 val zuluJdkPath: String? = System.getenv("ZULU_JDK_PATH")
+val customJrePath: String? = System.getenv("CUSTOM_JRE_PATH")
 
 repositories {
     mavenCentral()
@@ -50,6 +52,13 @@ compose.desktop {
         // ─── إذا حددت مسار Zulu JDK يستخدمه تلقائياً
         if (zuluJdkPath != null) {
             javaHome = zuluJdkPath
+        }
+
+        // ─── JRE مبني مسبقاً (من JDK 11 لويندوز 7)
+        if (customJrePath != null) {
+            jlink {
+                customImage.set(file(customJrePath))
+            }
         }
 
         nativeDistributions {
