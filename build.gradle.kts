@@ -10,11 +10,6 @@ plugins {
 group = "com.mandor"
 version = "1.0.0"
 
-// ─── ZULU_JDK_PATH: مسار JDK للبناء (يحتوي على jpackage)
-// ─── CUSTOM_JRE_PATH: مسار JRE مبني مسبقاً (من JDK 11) — يتخطى jlink
-val zuluJdkPath: String? = System.getenv("ZULU_JDK_PATH")
-val customJrePath: String? = System.getenv("CUSTOM_JRE_PATH")
-
 repositories {
     mavenCentral()
     google()
@@ -43,29 +38,15 @@ dependencies {
     implementation("com.github.librepdf:openpdf:2.0.2")
 }
 
-
-
 compose.desktop {
     application {
         mainClass = "com.mandor.MainKt"
 
-        // ─── إذا حددت مسار Zulu JDK يستخدمه تلقائياً
-        if (zuluJdkPath != null) {
-            javaHome = zuluJdkPath
-        }
-
-        // ─── JRE مبني مسبقاً (من JDK 11 لويندوز 7)
-        if (customJrePath != null) {
-            jlink {
-                customImage.set(file(customJrePath))
-            }
-        }
-
         nativeDistributions {
             targetFormats(
-                TargetFormat.Msi,   // ملف تثبيت Windows (الأفضل)
-                TargetFormat.Exe,   // ملف تنفيذي مباشر
-                TargetFormat.Deb    // لينكس
+                TargetFormat.Msi,
+                TargetFormat.Exe,
+                TargetFormat.Deb
             )
 
             packageName = "Mandor"
@@ -74,27 +55,17 @@ compose.desktop {
             vendor = "Mandor Systems"
             copyright = "© 2026 Mandor"
 
-            // أيقونة التطبيق
-            // (ملاحظة: Windows يحتاج .ico، لكن Compose تحوّل PNG تلقائياً)
             linux {
                 iconFile.set(project.file("src/main/resources/icon.png"))
             }
 
-            // ─── إعدادات Windows خاصة بالتوافق الكامل
             windows {
-                // يضمن تضمين JRE كاملاً داخل ملف التثبيت
-                // → المستخدم لا يحتاج تثبيت Java يدوياً أبداً
                 includeAllModules = true
-
-                dirChooser = true          // يتيح اختيار مجلد التثبيت
-                perUserInstall = false     // تثبيت لكل المستخدمين
-                menuGroup = "مندور"        // مجموعة في قائمة Start
-                shortcut = true           // اختصار على سطح المكتب
-
-                // UUID فريد للتحديثات — لا تغيّره بعد النشر
+                dirChooser = true
+                perUserInstall = false
+                menuGroup = "مندور"
+                shortcut = true
                 upgradeUuid = "A1B2C3D4-E5F6-7890-ABCD-EF1234567890"
-
-                // أيقونة Windows (ICO)
                 iconFile.set(project.file("src/main/resources/icon.png"))
             }
         }
