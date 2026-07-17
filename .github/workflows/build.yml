@@ -1,0 +1,41 @@
+name: Build Mandor
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 21 for Gradle
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Download Zulu JDK 11 (Windows 7 compatible)
+        shell: pwsh
+        run: |
+          $url = "https://cdn.azul.com/zulu/bin/zulu11.88.17-ca-jdk11.0.31-win_x64.zip"
+          $output = "$env:RUNNER_TEMP\zulu11.zip"
+          Invoke-WebRequest -Uri $url -OutFile $output
+          Expand-Archive -Path $output -DestinationPath "$env:RUNNER_TEMP\zulu11"
+
+      - name: Build native distribution
+        shell: pwsh
+        run: |
+          $zuluPath = Join-Path $env:RUNNER_TEMP "zulu11\zulu11.88.17-ca-jdk11.0.31-win_x64"
+          $env:ZULU_JDK_PATH = $zuluPath
+          .\gradlew packageMsi
+
+      - name: Upload MSI
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mandor-Windows-MSI
+          path: build/compose/binaries/main/msi/*.msi

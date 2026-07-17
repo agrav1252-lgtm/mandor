@@ -1,0 +1,82 @@
+[versions]
+agp = "8.11.2"
+kotlin = "2.1.20"
+compose-multiplatform = "1.7.3"
+
+# AndroidX
+coreKtx = "1.16.0"
+activityCompose = "1.10.1"
+
+# Lifecycle & Navigation (KMP-compatible versions)
+lifecycle = "2.8.3"
+navigation = "2.8.0-alpha10"
+
+# Room KMP
+room = "2.7.0"
+sqlite = "2.5.0"
+
+# Firebase
+googleGmsGoogleServices = "4.4.2"
+firebaseDatabase = "21.0.0"
+gitliveFirebase = "2.4.0"
+
+# Koin (replaces Hilt - works on all platforms)
+koin = "4.0.0"
+
+# Coroutines
+kotlinxCoroutines = "1.9.0"
+
+# Serialization
+kotlinxSerialization = "1.7.3"
+
+# Icons
+iconsLucide = "1.0.0"
+
+[libraries]
+# AndroidX
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+
+# Lifecycle (KMP)
+lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
+lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+
+# Navigation (KMP)
+navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+
+# Room KMP
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
+
+# Firebase (Android only - original SDK)
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+
+# GitLive Firebase KMP (Android + Desktop)
+gitlive-firebase-app = { group = "dev.gitlive", name = "firebase-app", version.ref = "gitliveFirebase" }
+gitlive-firebase-database = { group = "dev.gitlive", name = "firebase-database", version.ref = "gitliveFirebase" }
+
+# Koin
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
+
+# Coroutines
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinxCoroutines" }
+
+# Serialization
+kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+
+# Icons
+icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
